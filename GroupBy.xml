@@ -1,0 +1,74 @@
+1) List the department number and average salary of each 
+department
+
+SELECT deptno, ROUND(AVG(sal), 2) AS Average_Salary
+FROM emp
+GROUP BY deptno
+ORDER BY deptno;
+ 
+2) Divide all employees into groups by department and by 
+job within department. Count the employees in each group 
+and compute each groups average annual salary
+
+SELECT deptno, COUNT(empno) AS Employee_Count, job, AVG(sal)*12 AS Avg_Annual_Salary
+FROM emp
+GROUP BY deptno, job
+ORDER BY deptno;
+ 
+3) Issue the same query as above except list the department name 
+rather than the department number
+
+SELECT dept.dname, COUNT(empno) AS Employee_Count, job, AVG(sal)*12 AS Avg_Annual_Salary
+FROM emp 
+INNER JOIN dept ON emp.deptno = dept.deptno
+GROUP BY dept.dname, job
+ORDER BY dept.dname;
+ 
+4) List the average annual salary for all job groups having more 
+than 2 employees in the group
+
+SELECT job, COUNT(empno) AS Employee_Count, ROUND(AVG(sal) * 12, 2)
+FROM emp
+HAVING COUNT(empno) > 2
+GROUP BY job
+ORDER BY job;
+ 
+5) List all the departments that have at least two clerks
+
+SELECT job, deptno, COUNT(job)
+FROM emp
+HAVING job = 'CLERK'
+AND COUNT(job) > 1
+GROUP BY job, deptno
+ORDER BY deptno;
+
+ 
+6) Find all departments with an average commission greater than 
+25% of average salary
+
+SELECT DISTINCT emp.deptno, loc, ROUND(AVG(coalesce(comm,0)), 2) AS Average_Commission, COUNT(empno), AVG(sal)/4
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+GROUP BY emp.deptno, loc
+HAVING ROUND(AVG(coalesce(comm,0)), 2) > AVG(sal)/4;
+ 
+7) Find each departments average annual salary for all its 
+employees except the manager's and the president's
+
+SELECT ROUND(AVG(sal)*12, 2)
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+WHERE job NOT IN ('MANAGER', 'PRESIDENT');
+ 
+8) List the average annual salary for all job groups having more 
+than two employees in a group
+
+SELECT job, COUNT(empno) AS Employee_Count
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+GROUP BY job
+HAVING COUNT(empno) >= 2
+ORDER BY COUNT(empno) DESC;
