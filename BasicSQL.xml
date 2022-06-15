@@ -1,0 +1,72 @@
+1 List all employees whose salary is between 1,000 and 2,000. Show 
+employee name, department and salary
+
+SELECT ename, dname, sal
+FROM emp 
+INNER JOIN dept 
+ON emp.deptno = dept.deptno
+WHERE sal BETWEEN 1000 AND 2000;
+ 
+2 Display all the different types of occupations
+
+SELECT DISTINCT job
+FROM emp;
+ 
+3 List details of employees in departments 10 and 30
+
+SELECT *
+FROM emp 
+WHERE deptno IN (10,30);
+ 
+4 Display all employees who recruited during 1982, giving their 
+name, department and hiredate.
+
+SELECT ename, dname, hiredate
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+WHERE hiredate BETWEEN '01-JAN-1982' AND '31-DEC-1982';
+ 
+5 List the employees whose names have 'th' or 'll' in them
+
+SELECT *
+FROM emp
+WHERE ename LIKE '%TH%' OR ename LIKE '%LL%';  
+ 
+6 List the department numbers and names in department name order
+
+SELECT deptno, ename
+FROM emp
+ORDER BY deptno;
+
+ 
+7 Find the names, jobs, salaries and commissions of all employees 
+who do not have managers
+
+SELECT ename, job, sal, comm
+FROM emp
+WHERE mgr IS NULL;
+ 
+8 List all salesmen in descending order of their 
+commission divided by their salary
+
+SELECT *
+FROM emp
+WHERE job = 'SALESMAN'
+ORDER BY (comm/sal) DESC;
+
+ 
+9 Calculate the total annual compensation of all salesmen based 
+upon their monthly salary and monthly commission - (sal+comm)*12
+
+SELECT SUM(sal+comm)*12
+FROM emp
+WHERE job = 'SALESMAN';
+
+ 
+10 Find all the salesmen in department 30 who have a salary 
+greater than or equal to $1,500
+
+SSELECT *
+FROM emp
+WHERE deptno = '30' AND sal >= 1500;
