@@ -1,0 +1,89 @@
+1) List the name and job of employees who have the same job as 
+jones
+
+SELECT ename, job, sal
+FROM emp
+WHERE job IN (SELECT job 
+             FROM emp 
+             WHERE empno = 7566)
+;
+
+ 
+2) Find all the employees in department 10 who have a job that is 
+the same as anyone in department 30
+
+SELECT ename, job
+FROM emp
+WHERE deptno  = 10
+AND job IN (SELECT job 
+             FROM emp 
+             WHERE deptno = 30)
+;
+
+ 
+3) List the name, job title and salary of employees who have the 
+same job and salary as ford
+
+SELECT ename, job, sal
+FROM emp
+WHERE job IN (SELECT job 
+             FROM emp 
+             WHERE ename = 'FORD')
+;
+ 
+4) List the name, job and department of employees who have the 
+same job as jones or a salary greater than or equal to ford
+ 
+SELECT ename, job, dname
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+WHERE job IN (SELECT job 
+             FROM emp 
+             WHERE ename = 'JONES')
+OR  sal > (SELECT sal 
+             FROM emp 
+             WHERE ename = 'FORD') ;
+
+5) Find all the employees in department 10 that have a job that 
+is the same as anyone in the sales department
+
+SELECT ename, dname, job
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+WHERE dept.deptno  = 10
+
+AND job IN (SELECT job 
+             FROM emp 
+             WHERE deptno = 30)
+             
+ ;
+ 
+6) Find the employees located in chicago who have the same job as 
+allen. return the results in alphabetical order by employee name
+ 
+SELECT ename, dname, job, loc
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+WHERE loc  = 'CHICAGO'
+
+AND job IN (SELECT job 
+             FROM emp 
+             WHERE ename = 'ALLEN')
+
+ORDER BY ename;
+
+7) Find all employees that earn more than the average salary of 
+employees in their department
+
+SELECT ename, sal, dname
+FROM emp T1
+INNER JOIN dept
+ON T1.deptno = dept.deptno
+WHERE sal > (SELECT Avg(sal) 
+            FROM emp T2
+            WHERE T1.deptno=T2.deptno);
+
+
