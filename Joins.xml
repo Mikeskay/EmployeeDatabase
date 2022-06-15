@@ -1,0 +1,55 @@
+1) Find the name and salary of employees in dallas
+
+SELECT ename, sal
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+WHERE loc = 'DALLAS';
+ 
+2) Join the dept table to the emp table and show in department 
+number order
+ 
+SELECT *
+FROM emp
+INNER JOIN dept
+ON emp.deptno = dept.deptno
+ORDER BY emp.deptno asc;
+
+3) List all departments that have employees plus those 
+departments that do not have employees
+
+SELECT dname, COUNT(ename)
+FROM dept
+FULL OUTER JOIN emp
+ON dept.deptno = emp.deptno
+GROUP BY dname
+ORDER BY COUNT(ename) desc;
+ 
+4) List all departments that do not have any employees
+
+SELECT dname, COUNT(ename)
+FROM dept
+FULL OUTER JOIN emp
+ON dept.deptno = emp.deptno
+HAVING COUNT(ename) < 1
+GROUP BY dname;
+ 
+5) Find all the employees that earn more than jones 
+using temporary labels to abbreviate table names
+
+SELECT ename, sal
+FROM emp
+WHERE sal > (
+    SELECT sal
+    FROM emp 
+    WHERE ename = 'JONES')
+    ORDER BY sal desc;
+ 
+6) For each employee whose salary exceeds his manager's salary 
+list the employee's name and a salary and the manager's name and 
+salary
+ 
+SELECT e1.ename, e1.sal, e2.ename, e2.sal
+FROM emp e1, emp e2
+WHERE e2.empno = e1.mgr
+AND e1.sal > e2.sal ;
